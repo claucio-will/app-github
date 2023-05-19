@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".PortfolioActivity">
+
+    <!-- Campo para falar sobre si mesmo -->
+    <EditText
+        android:id="@+id/aboutMeField"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Fale sobre você..."
+        android:inputType="textMultiLine"
+        android:minLines="3"
+        android:gravity="start"
+        android:padding="16dp"
+        android:textSize="16sp"
+        android:autofillHints="name" />
+
+    <!-- Lista horizontal de projetos -->
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/projectsList"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/aboutMeField"
+        android:padding="16dp" />
+
+    <!-- ProgressDialog para exibir a busca de dados -->
+    <ProgressBar
+        android:id="@+id/progressBar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:visibility="gone" />
+
+    <!-- Layout para exibição de cada item de projeto -->
+    <LinearLayout
+        android:id="@+id/projectItemLayout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="8dp"
+        android:orientation="vertical">
+
+        <ImageView
+            android:layout_marginTop="50dp"
+            android:id="@+id/projectImage"
+            android:layout_width="120dp"
+            android:layout_height="120dp"
+            android:scaleType="centerCrop"
+            android:src="@drawable/ic_android_black_24dp"
+            android:contentDescription="image" />
+
+        <TextView
+            android:id="@+id/projectTitle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            android:gravity="center_horizontal" />
+
+        <TextView
+            android:id="@+id/projectDescription"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp" />
+
+        <Button
+            android:id="@+id/projectButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:text="Ver mais"
+            android:gravity="center_horizontal" />
+
+    </LinearLayout>
+
+
+</RelativeLayout>
