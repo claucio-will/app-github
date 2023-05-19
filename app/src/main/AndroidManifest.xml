@@ -17,6 +17,10 @@
         <activity
             android:name=".PortfolioActivity"
             android:exported="false" />
+
+        <activity
+            android:name=".RepoListActivity"
+            android:exported="false" />
         <activity
             android:name=".MainActivity"
             android:exported="true">

@@ -1,27 +1,44 @@
 package com.example.myapplication
 
+import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
-import android.widget.ArrayAdapter
-import android.widget.ListView
+import android.widget.ImageView
+import android.widget.LinearLayout
+import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
+import com.bumptech.glide.Glide
 import okhttp3.*
-import org.json.JSONArray
+import org.json.JSONObject
 import java.io.IOException
 
 class MainActivity : AppCompatActivity() {
 
-    private lateinit var listView: ListView
+    private lateinit var profileImageView: ImageView
+    private lateinit var nameTextView: TextView
+    private lateinit var repoCountTextView: TextView
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        listView = findViewById(R.id.repoListView)
+        profileImageView = findViewById(R.id.profileImageView)
+        nameTextView = findViewById(R.id.nameTextView)
+        repoCountTextView = findViewById(R.id.repoCountTextView)
 
+        val profileCard: LinearLayout = findViewById(R.id.profileCard)
+        profileCard.setOnClickListener {
+            openRepoList()
+
+        }
+        loadUserInfo()  
+    }
+
+    private fun loadUserInfo() {
         val client = OkHttpClient()
 
         val request = Request.Builder()
-            .url("https://api.github.com/users/claucio-will/repos")
+            .url("https://api.github.com/users/claucio-will")
             .build()
 
         client.newCall(request).enqueue(object : Callback {
@@ -29,23 +46,27 @@ class MainActivity : AppCompatActivity() {
                 val responseData = response.body?.string()
 
                 if (response.isSuccessful && !responseData.isNullOrEmpty()) {
-                    val repos = JSONArray(responseData)
-                    val repoNames = ArrayList<String>()
-
-                    for (i in 0 until repos.length()) {
-                        val repo = repos.getJSONObject(i)
-                        val repoName = repo.getString("name")
-                        repoNames.add(repoName)
-                    }
+                    val user = JSONObject(responseData)
+                    val name = user.getString("name")
+                    val avatarUrl = user.getString("avatar_url")
+                    val repoCount = user.getInt("public_repos")
 
                     runOnUiThread {
-                        val adapter = ArrayAdapter(
-                            this@MainActivity,
-                            R.layout.list_item_repo,
-                            R.id.repoTextView,
-                            repoNames
+                        nameTextView.text = name
+                        repoCountTextView.text = resources.getQuantityString(
+                            R.plurals.repo_count,
+                            repoCount,
+                            repoCount
                         )
-                        listView.adapter = adapter
+
+                        Glide.with(this@MainActivity)
+                            .load(avatarUrl)
+                            .placeholder(R.drawable.profile_placeholder)
+                            .into(profileImageView)
+
+                        findViewById<LinearLayout>(R.id.profileCard).setOnClickListener {
+                            openRepoList()
+                        }
                     }
                 }
             }
@@ -55,4 +76,10 @@ class MainActivity : AppCompatActivity() {
             }
         })
     }
+
+    private fun openRepoList() {
+        val intent = Intent(this, RepoListActivity::class.java)
+        startActivity(intent)
+    }
 }
+

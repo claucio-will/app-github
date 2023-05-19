@@ -1,3 +1,7 @@
 <resources>
     <string name="app_name">My Application</string>
+    <plurals name="repo_count">
+        <item quantity="one">%d Repositório</item>
+        <item quantity="other">%d Repositórios</item>
+    </plurals>
 </resources>
