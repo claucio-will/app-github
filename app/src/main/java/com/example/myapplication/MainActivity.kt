@@ -16,17 +16,31 @@ class MainActivity : AppCompatActivity() {
 
     private lateinit var profileImageView: ImageView
     private lateinit var nameTextView: TextView
+    private lateinit var bioTextView: TextView
     private lateinit var repoCountTextView: TextView
+
+    private lateinit var followersTexView: TextView
+    private lateinit var followingTexView: TextView
+    private lateinit var loginTexView: TextView
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
+        //Recuperando as views do arquivo de xml
         profileImageView = findViewById(R.id.profileImageView)
         nameTextView = findViewById(R.id.nameTextView)
+        bioTextView = findViewById(R.id.bioTextView)
         repoCountTextView = findViewById(R.id.repoCountTextView)
 
-        val profileCard: LinearLayout = findViewById(R.id.profileCard)
+        followingTexView = findViewById(R.id.followingTexView)
+        followersTexView = findViewById(R.id.followersTexView)
+        loginTexView = findViewById(R.id.loginTexView)
+
+
+        // Registrando o evento de click no card de perfil
+        val profileCard: LinearLayout = findViewById(R.id.layoutRepo)
         profileCard.setOnClickListener {
             openRepoList()
 
@@ -45,28 +59,38 @@ class MainActivity : AppCompatActivity() {
             override fun onResponse(call: Call, response: Response) {
                 val responseData = response.body?.string()
 
+                // Pegando os dados que tem dentro da api
                 if (response.isSuccessful && !responseData.isNullOrEmpty()) {
                     val user = JSONObject(responseData)
                     val name = user.getString("name")
+                    val login = user.getString("login")
+                    val followers = user.getString("followers")
+                    val following = user.getString("following")
+                    val bio = user.getString("bio")
                     val avatarUrl = user.getString("avatar_url")
                     val repoCount = user.getInt("public_repos")
 
+                    // Populando os dados dentro das views
                     runOnUiThread {
                         nameTextView.text = name
-                        repoCountTextView.text = resources.getQuantityString(
-                            R.plurals.repo_count,
-                            repoCount,
-                            repoCount
-                        )
+                        loginTexView.text = "@${login}"
+                        followersTexView.text = followers
+                        followingTexView.text = following
+                        bioTextView.text = bio
+                        repoCountTextView.text = repoCount.toString()
+//                        repoCountTextView.text = resources.getQuantityString(
+//                            R.plurals.repo_count,
+//                            repoCount,
+//                            repoCount
+//                        )
 
+                        // Criando o car, Colocando a imagem  do github e caso não tenha
+                        // Pega a imagem do drawable
                         Glide.with(this@MainActivity)
                             .load(avatarUrl)
                             .placeholder(R.drawable.profile_placeholder)
                             .into(profileImageView)
 
-                        findViewById<LinearLayout>(R.id.profileCard).setOnClickListener {
-                            openRepoList()
-                        }
                     }
                 }
             }
@@ -77,6 +101,7 @@ class MainActivity : AppCompatActivity() {
         })
     }
 
+    // Metodo que abre a tela de RepoListActivity
     private fun openRepoList() {
         val intent = Intent(this, RepoListActivity::class.java)
         startActivity(intent)

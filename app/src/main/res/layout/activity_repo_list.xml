@@ -9,6 +9,7 @@
         android:layout_height="wrap_content">
 
         <com.google.android.material.appbar.MaterialToolbar
+            android:backgroundTint="#19191a"
             android:id="@+id/toolbar"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
@@ -19,6 +20,8 @@
     </com.google.android.material.appbar.AppBarLayout>
 
     <ListView
+        android:background="@color/black"
+        android:backgroundTint="@color/black"
         android:id="@+id/repoListView"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
