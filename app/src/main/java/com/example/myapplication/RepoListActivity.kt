@@ -10,6 +10,7 @@ import android.widget.ListView
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
+import com.example.myapplication.databinding.ActivityRepoListBinding
 import okhttp3.Call
 import okhttp3.Callback
 import okhttp3.OkHttpClient
@@ -23,9 +24,13 @@ class RepoListActivity : AppCompatActivity() {
     private lateinit var listView: ListView
     private lateinit var progressDialog: ProgressDialog
 
+    private lateinit var binding: ActivityRepoListBinding
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_repo_list)
+        binding = ActivityRepoListBinding.inflate(layoutInflater)
+        setContentView(binding.root)
 
         val toolbar: Toolbar = findViewById(R.id.toolbar)
         setSupportActionBar(toolbar)

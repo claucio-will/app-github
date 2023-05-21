@@ -1,43 +1,29 @@
 package com.example.myapplication
 
 import android.content.Intent
-import android.net.Uri
 import android.os.Bundle
 import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import com.bumptech.glide.Glide
-import okhttp3.*
+import com.example.myapplication.databinding.ActivityMainBinding
+import okhttp3.Call
+import okhttp3.Callback
+import okhttp3.OkHttpClient
+import okhttp3.Request
+import okhttp3.Response
 import org.json.JSONObject
 import java.io.IOException
 
 class MainActivity : AppCompatActivity() {
 
-    private lateinit var profileImageView: ImageView
-    private lateinit var nameTextView: TextView
-    private lateinit var bioTextView: TextView
-    private lateinit var repoCountTextView: TextView
-
-    private lateinit var followersTexView: TextView
-    private lateinit var followingTexView: TextView
-    private lateinit var loginTexView: TextView
-
+    private lateinit var binding: ActivityMainBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
-
-        //Recuperando as views do arquivo de xml
-        profileImageView = findViewById(R.id.profileImageView)
-        nameTextView = findViewById(R.id.nameTextView)
-        bioTextView = findViewById(R.id.bioTextView)
-        repoCountTextView = findViewById(R.id.repoCountTextView)
-
-        followingTexView = findViewById(R.id.followingTexView)
-        followersTexView = findViewById(R.id.followersTexView)
-        loginTexView = findViewById(R.id.loginTexView)
-
+        binding = ActivityMainBinding.inflate(layoutInflater)
+        setContentView(binding.root)
 
         // Registrando o evento de click no card de perfil
         val profileCard: LinearLayout = findViewById(R.id.layoutRepo)
@@ -72,12 +58,12 @@ class MainActivity : AppCompatActivity() {
 
                     // Populando os dados dentro das views
                     runOnUiThread {
-                        nameTextView.text = name
-                        loginTexView.text = "@${login}"
-                        followersTexView.text = followers
-                        followingTexView.text = following
-                        bioTextView.text = bio
-                        repoCountTextView.text = repoCount.toString()
+                        binding.nameTextView.text = name
+                        binding.loginTexView.text = "@${login}"
+                        binding.followersTexView.text = followers
+                        binding.followingTexView.text = following
+                        binding.bioTextView.text = bio
+                        binding.repoCountTextView.text = repoCount.toString()
 //                        repoCountTextView.text = resources.getQuantityString(
 //                            R.plurals.repo_count,
 //                            repoCount,
@@ -89,7 +75,7 @@ class MainActivity : AppCompatActivity() {
                         Glide.with(this@MainActivity)
                             .load(avatarUrl)
                             .placeholder(R.drawable.profile_placeholder)
-                            .into(profileImageView)
+                            .into(binding.profileImageView)
 
                     }
                 }
