@@ -1,5 +1,8 @@
 <resources>
     <string name="app_name">My Application</string>
+    <string name="followers">Seguidores</string>
+    <string name="following">Seguindo</string>
+    <string name="repositories">Repositórios</string>
     <plurals name="repo_count">
         <item quantity="one">%d Repositório</item>
         <item quantity="other">%d Repositórios</item>

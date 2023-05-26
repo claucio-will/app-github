@@ -1,10 +1,9 @@
 package com.example.myapplication
 
+import android.annotation.SuppressLint
 import android.content.Intent
 import android.os.Bundle
-import android.widget.ImageView
 import android.widget.LinearLayout
-import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import com.bumptech.glide.Glide
 import com.example.myapplication.databinding.ActivityMainBinding
@@ -42,6 +41,7 @@ class MainActivity : AppCompatActivity() {
             .build()
 
         client.newCall(request).enqueue(object : Callback {
+            @SuppressLint("SetTextI18n")
             override fun onResponse(call: Call, response: Response) {
                 val responseData = response.body?.string()
 
@@ -75,7 +75,7 @@ class MainActivity : AppCompatActivity() {
                         Glide.with(this@MainActivity)
                             .load(avatarUrl)
                             .placeholder(R.drawable.profile_placeholder)
-                            .into(binding.profileImageView)
+                            .into(binding.profileImage)
 
                     }
                 }
